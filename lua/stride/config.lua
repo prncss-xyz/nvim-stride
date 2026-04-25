@@ -11,6 +11,7 @@
 ---@field api_key? string Cerebras API key (defaults to CEREBRAS_API_KEY env var)
 ---@field endpoint? string API endpoint URL
 ---@field model? string Model name for completions
+---@field reasoning_model? boolean The model a reasoning model
 ---@field debounce_ms? number Debounce delay in milliseconds (insert mode)
 ---@field debounce_normal_ms? number Debounce delay for normal mode edits (default: 500)
 ---@field accept_keymap? string Keymap to accept suggestion
@@ -36,6 +37,7 @@ M.defaults = {
   api_key = os.getenv("CEREBRAS_API_KEY"),
   endpoint = "https://api.cerebras.ai/v1/chat/completions",
   model = "gpt-oss-120b",
+  reasoning_model = true,
   debounce_ms = 300,
   debounce_normal_ms = 500,
   accept_keymap = "<Tab>",

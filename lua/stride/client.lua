@@ -156,8 +156,11 @@ Rules:
     temperature = 0,
     max_tokens = 128,
     stop = { "<|eot_id|>", "<|end_of_text|>" },
-    reasoning_effort = "low",
   }
+
+  if Config.options.reasoning_model then
+    payload.reasoning_effort = "low"
+  end
 
   Log.debug("===== API REQUEST START =====")
   Log.debug("request_id=%d attempt=%d/%d", current_request_id, attempt, max_retries)

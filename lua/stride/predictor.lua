@@ -472,8 +472,11 @@ function M.fetch_next_edit(buf, cursor_pos, callback)
     messages = messages,
     temperature = 0,
     max_tokens = 512,
-    reasoning_effort = "low",
   }
+
+  if Config.options.reasoning_model then
+    payload.reasoning_effort = "low"
+  end
 
   Log.debug("===== PREDICTOR REQUEST =====")
   Log.debug("request_id=%d", current_request_id)

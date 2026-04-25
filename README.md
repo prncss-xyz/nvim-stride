@@ -8,8 +8,8 @@
 <details>
   <summary><b>Demos</b></summary>
 
-  - **Completion Mode**: https://github.com/user-attachments/assets/25915755-c94c-458b-8157-bd500bdef8fc
-  - **Refactor Mode**: https://github.com/user-attachments/assets/d36f2220-3474-4c46-860b-da22f19a0ec6
+- **Completion Mode**: https://github.com/user-attachments/assets/25915755-c94c-458b-8157-bd500bdef8fc
+- **Refactor Mode**: https://github.com/user-attachments/assets/d36f2220-3474-4c46-860b-da22f19a0ec6
 
 </details>
 
@@ -20,6 +20,7 @@ Powered by the Cerebras API for ultra-low latency inference.
 ## Features
 
 ### Refactor Mode (Next-Edit Suggestions)
+
 - **Next-edit prediction**: Rename `apple` to `orange` on line 1, and stride suggests updating line 20
 - **Automatic trigger**: Predictions fire on `InsertLeave` and normal mode edits (`x`, `dd`, etc.)
 - **Remote suggestions**: Highlights target text (strikethrough) with replacement shown inline
@@ -29,6 +30,7 @@ Powered by the Cerebras API for ultra-low latency inference.
 - **`:StrideClear`**: Clear all tracked changes manually
 
 ### Completion Mode
+
 - Real-time ghost text completions as you type
 - **Focused completions**: Completes the current statement/expression, not entire blocks — intentionally minimal to stay fast and non-intrusive
 - Treesitter-aware context capture for smarter completions
@@ -37,6 +39,7 @@ Powered by the Cerebras API for ultra-low latency inference.
 - Tab to accept
 
 ### Core
+
 - Automatic race condition handling
 - Configurable debounce and filetypes
 - **Gutter icon**: Shows indicator in sign column when suggestion is active
@@ -120,6 +123,7 @@ require("stride").setup({
 
   -- Feature Flags
   use_treesitter = true,       -- Use Treesitter for smart context expansion
+  reasoning_model = true,      -- Wether this is a reasoning model or not (e.g. codestral)
   disabled_filetypes = {},     -- Additional filetypes to disable (merged with defaults)
   disabled_buftypes = {},      -- Additional buftypes to disable (merged with defaults)
   debug = false,               -- Enable debug logging to file
@@ -169,14 +173,14 @@ vim.api.nvim_set_hl(0, "StrideNotifyBorder", { fg = "#6c7086" })
 require("stride").setup()
 ```
 
-| Highlight Group | Purpose | Default |
-|-----------------|---------|---------|
-| `StrideReplace` | Text being replaced (strikethrough) | `DiagnosticError` fg, strikethrough |
-| `StrideRemoteSuggestion` | Replacement text preview | `DiagnosticOk` fg, italic |
-| `StrideInsert` | Insertion point marker | `DiagnosticOk` fg, italic |
-| `StrideSign` | Gutter icon for active suggestions | `DiagnosticOk` fg |
-| `StrideNotify` | Notification popup text | `NormalFloat` |
-| `StrideNotifyBorder` | Notification popup border | `FloatBorder` |
+| Highlight Group          | Purpose                             | Default                             |
+| ------------------------ | ----------------------------------- | ----------------------------------- |
+| `StrideReplace`          | Text being replaced (strikethrough) | `DiagnosticError` fg, strikethrough |
+| `StrideRemoteSuggestion` | Replacement text preview            | `DiagnosticOk` fg, italic           |
+| `StrideInsert`           | Insertion point marker              | `DiagnosticOk` fg, italic           |
+| `StrideSign`             | Gutter icon for active suggestions  | `DiagnosticOk` fg                   |
+| `StrideNotify`           | Notification popup text             | `NormalFloat`                       |
+| `StrideNotifyBorder`     | Notification popup border           | `FloatBorder`                       |
 
 ## Usage
 
@@ -194,6 +198,7 @@ https://github.com/user-attachments/assets/25915755-c94c-458b-8157-bd500bdef8fc
 https://github.com/user-attachments/assets/d36f2220-3474-4c46-860b-da22f19a0ec6
 
 1. Enable refactor mode:
+
    ```lua
    require("stride").setup({ mode = "refactor" })
    -- or use both modes simultaneously:
@@ -258,6 +263,7 @@ The arrow indicates direction (↑ suggestion above cursor, ↓ below cursor).
 **Animation**: If [snacks.nvim](https://github.com/folke/snacks.nvim) is installed, notifications fade in/out smoothly. Otherwise they appear/disappear instantly.
 
 **Disable notifications**:
+
 ```lua
 require("stride").setup({
   notify = false,
@@ -265,6 +271,7 @@ require("stride").setup({
 ```
 
 **Use fidget.nvim instead** (legacy):
+
 ```lua
 require("stride").setup({
   notify = { backend = "fidget" },
@@ -274,6 +281,7 @@ require("stride").setup({
 ## How It Works
 
 ### Completion Mode
+
 1. **Debounced Trigger**: After you stop typing for 300ms, a prediction is requested
 2. **Smart Context**: Uses Treesitter to capture full function/class definitions in context
 3. **Focused Output**: Completions target the current statement/expression only — not scaffolding or large code blocks. This is by design for low latency and high acceptance rates.
@@ -281,6 +289,7 @@ require("stride").setup({
 5. **Race Protection**: Stale responses are discarded if you've moved the cursor
 
 ### Refactor Mode
+
 1. **Incremental Tracking**: Edits tracked in real-time via `nvim_buf_attach` with `on_bytes` callback
 2. **InsertLeave Trigger**: On leaving insert mode, stride analyzes recent edits
 3. **Next-Edit Prediction**: LLM predicts related changes based on your edit patterns
@@ -331,6 +340,7 @@ stylua lua/
 ## Thanks
 
 Inspired by:
+
 - [99](https://github.com/ThePrimeagen/99) - ThePrimeagen's AI code completion experiment
 - [magenta.nvim](https://github.com/dlants/magenta.nvim) - AI-powered code suggestions for Neovim
 
